@@ -4,6 +4,11 @@ import sys
 def fname():
     return sys._getframe(1).f_code.co_name
 
+#Let store here the points of the results with custom confs
+class Points:
+    points = set()
+
+#Lets use this to create the analisis functions to compare the data
 class Compa:
 
     analysis = []
@@ -22,6 +27,12 @@ class Compa:
 
     def __init__(self, size = set()):
         self.size = size
+
+    def _left(self,  params, req):
+        if params in self.analysis:
+            actual = set(self.analisis[params].points.keys())
+            return actual - req
+        return req
 
     def load(self, list):
         ret = []
@@ -253,14 +264,6 @@ class Compa:
                 del val[j]
                 return self.clear(val)
         return val
-
-    def to_bytes(self, val):
-        if isinstance(val, bytearray):
-            return val
-        elif isinstance(val, bytes):
-            return bytearray(val)
-        else:
-            return str(val).encode()
 
     def min_len(self, list):
         if len(list) == 0: return 0
