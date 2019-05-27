@@ -1,6 +1,6 @@
 ##Just some vars to play while debugging
 
-from Compa2 import Compa
+from Compa import Compa
 from Points import Data, Points
 
 #import pdb;pdb.set_trace()
@@ -11,9 +11,10 @@ r = Data.load(["holo", "colo", "jamo"])
 #pdb.run("a.uniq(r)")
 #pdb.run("j == Points({1: {0}, 2: {0}, 3: {0}, 4: {0}})")
 
+u = Data.load(["o"])
+uu = Data.load(["holo"])
 
-a = Compa({1, 2, 3, 4})
-r = Data.load(["holo", "colo", "jamo"])
+p=a.permute("&", "self.a_in_b({1}, {2})", ["{1}", "{2}"], [u, uu])
 j=a.uniq(r)
 
 s = Data.load([b"o"])

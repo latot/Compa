@@ -1,7 +1,5 @@
 import Utils
 
-import inspect
-
 class Analysis:
 
     def __init__(self):
@@ -45,7 +43,7 @@ class SubData:
         return len(self.data)
 
     def read(self, val):
-        return Data.data[val]
+        return Data.data[self.data[val]]
 
 class Data:
 
@@ -54,11 +52,12 @@ class Data:
     def load(list):
         ret = []
         for i in list:
+            i = Utils.to_bytes(i)
             try:
                 ret.append(Data.data.index(i))
             except ValueError:
                 ret.append(len(Data.data))
-                Data.data.append(Utils.to_bytes(i))
+                Data.data.append(i)
         ret.sort()
         return SubData(ret)
 

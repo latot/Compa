@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from Compa2 import Compa
+from Compa import Compa
 from Points import Data, Points
 
 class TestPoints(unittest.TestCase):
@@ -21,6 +21,8 @@ class TestCompa(unittest.TestCase):
 
     a = Compa({1, 2, 3, 4})
     r = Data.load(["holo", "colo", "jamo"])
+    u = Data.load(["o"])
+    uu = Data.load(["holo"])
 
     def test_uniq(self):
         j=self.a.uniq(self.r)
@@ -31,7 +33,10 @@ class TestCompa(unittest.TestCase):
         self.assertEqual(j, Points({1: {3}}))
 
     def test_a_in_b(self):
-        pass
+        self.assertEqual(self.a.a_in_b(self.u, self.uu), Points({1: {(0, 1), (0, 3)}}))
+
+    def test_permute(self):
+        self.assertEqual(self.a.permute("&", "self.a_in_b({1}, {2})", ["{1}", "{2}"], [self.u, self.r]), Points({1: {(0, 3)}}))
 
 if __name__ == "__main__":
     unittest.main()
