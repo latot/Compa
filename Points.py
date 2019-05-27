@@ -1,5 +1,7 @@
 import Utils
 
+import inspect
+
 class Analysis:
 
     def __init__(self):
@@ -63,7 +65,7 @@ class Data:
 class Points:
 
     def __init__(self, points = dict(), full_key = "all", _repr = "Points"):
-        self.points = points
+        self.points = points.copy()
         self.full_key = full_key
         #This can be used for a lot o things, just put here the name for what we will use it"
         self._repr = _repr
@@ -78,7 +80,7 @@ class Points:
         t._repr = self._repr
         t.points = self.points.copy()
 
-    def __repr__(self): return self._repr
+    def __repr__(self): return "{}: {}".format(self._repr, self.points)
 #
 #    def read_conf(self, conf):
 #        assert isinstance(conf, dict), "Config need to be a dict"
@@ -121,10 +123,10 @@ class Points:
         kpoint1 = set(self.points.keys())
         kpoint2 = set(point.points.keys())
         for i in (kpoint2 ^ kpoint1):
-            for j in (kpoint1 & i):
-                npoints[j] = self.point[j]
-            for j in (kpoint2 & i):
-                npoints[j] = point.points[j]
+            if i in kpoint1:
+                npoints[i] = self.points[i]
+            if i in kpoint2:
+                npoints[i] = point.points[i]
         for i in (kpoint2 & kpoint1):
             npoints[i] = self.points[i] | point.points[i]
         t = Points()

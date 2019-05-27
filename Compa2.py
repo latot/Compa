@@ -3,6 +3,8 @@ import sys
 from Points import Points, Analysis, Data, SubData
 import Utils
 
+import inspect
+
 def fname():
     return sys._getframe(1).f_code.co_name
 
@@ -83,22 +85,23 @@ class Compa:
                        list.read(k)[i:i+size]:
                         e = False
                         break
+                if not e: break
             if e:
                 r.add(i)
         return r
 
-    def a_in_b(self, val, list, size = None):
+    def a_in_some_b(self, val, list, size = None):
         if size == None: size = self.size
         params = (fname(), tuple([val]), list.hash())
         lsize = self._left(params, size)
         if len(lsize) == 0: return self._request(params, size)
         t = Infinite()
         for i in list.data:
-            t = t & self._a_in_b(val.data[0], i, lsize, fname())
+            t = t & self._a_in_some_b(val.data[0], i, lsize, fname())
         self.analysis.add(params, t)
         return t
 
-    def _a_in_b(self, val1, val2, size = None, fn = None):
+    def _a_in_some_b(self, val1, val2, size = None, fn = None):
         if not fn: fn = fname()
         if size == None: size = self.size
         params = (fname(), tuple([val1]), tuple([val2]))
@@ -106,11 +109,11 @@ class Compa:
         if len(lsize) == 0: return self._request(params, size)
         r = Points()
         for i in lsize:
-                r.add(i, self.__a_in_b(val1, val2, i))
+                r.add(i, self.__a_in_some_b(val1, val2, i))
         self.analysis.add(params, r)
         return r
 
-    def __a_in_b(self, val1, val2, size):
+    def __a_in_some_b(self, val1, val2, size):
         r = set()
         for i in range(len(Data.data[val1])-size+1):
             for j in range(len(Data.data[val2])-size+1):
