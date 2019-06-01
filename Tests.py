@@ -17,6 +17,8 @@ class TestPoints(unittest.TestCase):
         self.assertEqual(self.P1 | self.P2, Pu)
         self.assertEqual(self.P2 | self.P1, Pu)
 
+# The double test is for check the saved results, should be returned very fast, nothing should be calculated
+
 class TestCompa(unittest.TestCase):
 
     a = Compa({1, 2, 3, 4})
@@ -25,17 +27,19 @@ class TestCompa(unittest.TestCase):
     uu = Data.load(["holo"])
 
     def test_uniq(self):
-        j=self.a.uniq(self.r)
-        self.assertEqual(j, Points({1: {0}, 2: {0}, 3: {0}, 4: {0}}))
+        self.assertEqual(self.a.uniq(self.r), Points({1: {0}, 2: {0}, 3: {0}, 4: {0}}))
+        self.assertEqual(self.a.uniq(self.r), Points({1: {0}, 2: {0}, 3: {0}, 4: {0}}))
 
     def test_equal(self):
-        j=self.a.equal(self.r)
-        self.assertEqual(j, Points({1: {3}}))
+        self.assertEqual(self.a.equal(self.r), Points({1: {3}}))
+        self.assertEqual(self.a.equal(self.r), Points({1: {3}}))
 
     def test_a_in_b(self):
         self.assertEqual(self.a.a_in_b(self.u, self.uu), Points({1: {(0, 1), (0, 3)}}))
+        self.assertEqual(self.a.a_in_b(self.u, self.uu), Points({1: {(0, 1), (0, 3)}}))
 
     def test_permute(self):
+        self.assertEqual(self.a.permute("&", "self.a_in_b({1}, {2})", ["{1}", "{2}"], [self.u, self.r]), Points({1: {(0, 3)}}))
         self.assertEqual(self.a.permute("&", "self.a_in_b({1}, {2})", ["{1}", "{2}"], [self.u, self.r]), Points({1: {(0, 3)}}))
 
 if __name__ == "__main__":

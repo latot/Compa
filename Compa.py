@@ -25,14 +25,14 @@ class Compa:
 
     def _left(self,  params, req):
         if params in self.analysis.data.keys():
-            actual = set(self.analysis[params].points.keys())
+            actual = set(self.analysis.data[params].points.keys())
             return actual - req
         return req
 
     def _request(self, params, req):
         r = Points()
         for i in list(req): ## Fix latter, travel set
-            r.add(self.analysis[params].points[i])
+            r.add(i, self.analysis.data[params].points[i])
         return r
 
     def equal(self, list, size = None):

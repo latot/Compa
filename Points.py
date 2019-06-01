@@ -45,6 +45,12 @@ class SubData:
     def read(self, val):
         return Data.data[self.data[val]]
 
+    def add(self, val):
+        return SubData(self.data + val.data)
+
+    def __add__(self, val):
+        return self.add(val)
+
 class Data:
 
     data = []
@@ -158,13 +164,12 @@ class Points:
         kpoint1 = set(self.points.keys())
         kpoint2 = set(point.points.keys())
         for i in (kpoint2 & kpoint1):
-            npoints[i] = self.point[i] - point.points[i]
+            npoints[i] = self.points[i] - point.points[i]
             # is this useful?, maybe just remove it
             if len(npoints[i]) == 0:
                 del npoints[i]
-        t = Points()
-        t.points = npoints
-        return npoints
+        t = Points(npoints)
+        return t
 
     def __sub__(self, point):
         return self.difference(point)
